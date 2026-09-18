@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#080b14">
+<meta name="description" content="Расписание 1 семестра группы МАП-М26, РГГМУ">
+<title>Расписание МАП-М26</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png" sizes="192x192">
+<link rel="apple-touch-icon" href="icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="МАП-М26">
+<style>
+:root{
+  --bg:#080b14; --panel:#101522; --panel2:#151b2b; --text:#eef2ff; --muted:#98a2bd;
+  --line:#252d42; --accent:#7c5cff; --accent2:#21d4fd; --green:#35d07f;
+  --shadow:0 24px 70px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;background:var(--bg)}
+body{
+  min-height:100vh;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  color:var(--text);background:
+  radial-gradient(circle at 10% 0%,rgba(124,92,255,.22),transparent 30%),
+  radial-gradient(circle at 90% 10%,rgba(33,212,253,.16),transparent 28%),var(--bg);
+  background-attachment:fixed;
+  -webkit-tap-highlight-color:transparent;overscroll-behavior-y:contain;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+button{font:inherit}
+.app{max-width:1450px;margin:auto;padding-block:24px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px))}
+@media(min-width:651px){.app{padding-left:max(24px,env(safe-area-inset-left,0px));padding-right:max(24px,env(safe-area-inset-right,0px))}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+.hero{position:relative;overflow:hidden;border:1px solid var(--line);border-radius:30px;padding:30px;background:linear-gradient(135deg,rgba(16,21,34,.96),rgba(16,21,34,.78));box-shadow:var(--shadow)}
+.hero:after{content:"";position:absolute;width:280px;height:280px;border-radius:50%;right:-100px;top:-120px;background:rgba(124,92,255,.18);filter:blur(10px)}
+.eyebrow{color:#b9b0ff;font-size:.8rem;text-transform:uppercase;letter-spacing:.14em;font-weight:800}
+h1{font-size:clamp(2rem,5vw,4rem);line-height:1;margin:10px 0 12px}
+.hero p{color:var(--muted);max-width:760px}
+.meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.pill{padding:9px 13px;border:1px solid var(--line);background:rgba(255,255,255,.04);border-radius:999px;color:#dce2f7;font-size:.88rem}
+.toolbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin:22px 0;padding:10px 0;background:linear-gradient(var(--bg) 70%,transparent);backdrop-filter:blur(8px)}
+.nav{display:flex;gap:8px;align-items:center}
+.btn{border:1px solid var(--line);background:var(--panel);color:var(--text);padding:11px 15px;min-height:44px;border-radius:13px;cursor:pointer;transition:.2s;touch-action:manipulation}
+.btn:hover:not(:disabled){transform:translateY(-1px);border-color:#59627e}
+.btn:disabled{opacity:.35;cursor:not-allowed}
+.btn.primary{background:linear-gradient(135deg,var(--accent),#5c7cff);border:0}
+.btn.today{background:rgba(53,208,127,.12);border-color:rgba(53,208,127,.4);color:#7df0ad}
+.week-title{text-align:center;min-width:220px}
+.week-title strong{display:block;font-size:1.15rem}
+.week-title span{color:var(--muted);font-size:.85rem}
+.legend{display:flex;gap:8px;flex-wrap:wrap}
+.tag{font-size:.72rem;padding:5px 8px;border-radius:8px;background:#20283b;color:#cdd6ef}
+.tag.online{background:rgba(33,212,253,.12);color:#69e4ff}
+.tag.room{background:rgba(124,92,255,.14);color:#b9aaff}
+.tag.group{background:rgba(53,208,127,.12);color:#75e6a5}
+.days{display:flex;flex-direction:column;gap:12px}
+.day{background:rgba(16,21,34,.88);border:1px solid var(--line);border-radius:20px;padding:14px 16px}
+.day.today{border-color:rgba(53,208,127,.65);box-shadow:0 0 0 1px rgba(53,208,127,.12),0 15px 35px rgba(0,0,0,.18)}
+.dayhead{display:flex;justify-content:space-between;gap:10px;align-items:baseline;flex-wrap:wrap;padding-bottom:10px;border-bottom:1px solid var(--line);margin-bottom:12px}
+.dayname{font-weight:800}.date{color:var(--muted);font-size:.8rem}
+.today-label{color:#71e9a3;font-size:.68rem;font-weight:800;text-transform:uppercase;margin-left:8px}
+.lessons{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:10px;align-items:start}
+.lesson{position:relative;min-width:0;background:linear-gradient(145deg,#171e30,#121827);border:1px solid #273149;border-radius:15px;padding:13px;transition:.2s}
+.lesson:hover{transform:translateY(-2px);border-color:#46516e}
+.lesson.current{border-color:var(--green);box-shadow:0 0 0 1px rgba(53,208,127,.18)}
+.lesson.current:before{content:"СЕЙЧАС";position:absolute;right:9px;top:9px;font-size:.58rem;color:#7df0ad;font-weight:900}
+.lesson.current .time{padding-right:54px}
+.lesson.note{background:linear-gradient(145deg,#1b1930,#151327);border-color:#332a52}
+.time{font-weight:900;color:#fff;font-size:.85rem}
+.subject{font-weight:800;margin:7px 0 5px;line-height:1.25}
+.teacher,.place,.period{color:var(--muted);font-size:.76rem;line-height:1.4}
+.subject,.teacher,.place,.period{overflow-wrap:anywhere;word-break:break-word;hyphens:auto}
+.tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+.tag{max-width:100%;overflow-wrap:anywhere}
+.empty{color:#626c83;padding:6px 2px 4px;font-size:.85rem}
+.bottom{margin-top:18px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.panel{background:rgba(16,21,34,.88);border:1px solid var(--line);border-radius:20px;padding:18px}
+.panel h2{font-size:1rem;margin-bottom:8px}.panel p{color:var(--muted);font-size:.82rem;line-height:1.5}
+.panel p+p{margin-top:8px}
+.search{width:100%;max-width:350px;background:var(--panel);border:1px solid var(--line);color:var(--text);border-radius:13px;padding:11px 13px;min-height:44px;outline:none;font-size:16px}
+.search:focus{border-color:#59627e}
+.install{display:none;gap:10px;align-items:center;justify-content:space-between;margin:14px 0 0;padding:12px 14px;border:1px solid rgba(124,92,255,.35);background:rgba(124,92,255,.10);border-radius:16px;font-size:.84rem;color:#d9d3ff}
+.install.show{display:flex}
+.install button{background:none;border:0;color:#b9aaff;cursor:pointer;font-weight:800;padding:8px;min-height:44px}
+.footer{text-align:center;color:#606a80;font-size:.75rem;padding:24px 0 5px}
+@media(max-width:1050px){.bottom{grid-template-columns:1fr}}
+@media(max-width:650px){.app{padding:12px}.hero{padding:22px;border-radius:22px}h1{overflow-wrap:anywhere}.toolbar{align-items:stretch}.nav{width:100%;justify-content:space-between;flex-wrap:wrap}.week-title{min-width:0}.search{max-width:none}.day{padding:12px}.lessons{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="hero">
+    <div class="eyebrow">РГГМУ · Метеорологический факультет</div>
+    <h1>Расписание МАП-М26</h1>
+    <p>1 курс магистратуры · 05.04.05 «Прикладная гидрометеорология» · профиль «Моделирование атмосферных процессов» · очная форма</p>
+    <div class="meta">
+      <span class="pill">📚 1 семестр 2026/27</span>
+      <span class="pill">📅 Теория: 01.09.2026 — 13.12.2026</span>
+      <span class="pill">📝 Сессия: 14.12.2026 — 10.01.2027</span>
+      <span class="pill">🧭 Практика: 01.09.2026 — 13.12.2026</span>
+    </div>
+  </header>
+
+  <section class="toolbar">
+    <div class="nav">
+      <button class="btn" id="prev">← Назад</button>
+      <div class="week-title"><strong id="weekNumber">Неделя</strong><span id="weekDates"></span></div>
+      <button class="btn" id="next">Вперёд →</button>
+      <button class="btn today" id="today">Сегодня</button>
+    </div>
+    <input class="search" id="search" placeholder="🔎 Поиск предмета, преподавателя, аудитории…">
+  </section>
+
+  <div class="install" id="install">
+    <span>Чтобы открывать расписание как приложение: <strong>Поделиться</strong> → <strong>На экран «Домой»</strong>.</span>
+    <button type="button" id="installClose" aria-label="Скрыть подсказку">Понятно</button>
+  </div>
+
+  <div class="legend">
+    <span class="tag online">онлайн / дистанционно</span>
+    <span class="tag room">аудитория</span>
+    <span class="tag group">подгруппа</span>
+  </div>
+
+  <main class="days" id="days"></main>
+
+  <section class="bottom">
+    <div class="panel">
+      <h2>ℹ️ Важно</h2>
+      <p>Расписание собрано по PDF «расписание.pdf». Занятия, указанные в исходнике конкретными датами, хранятся именно как даты; диапазоны имеют начало и конец — поэтому пара не «протекает» после окончания своего периода.</p>
+      <p>Занятия без дат в исходнике (ВУЦ) показываются на всём периоде теоретического обучения. Акселератор «Гидромет» из расписания исключён.</p>
+    </div>
+    <div class="panel">
+      <h2>🏫 Локации</h2>
+      <p>Корпус 1 — Малоохтинский пр., 98; корпус 2 — пр. Металлистов, 3; корпус 4 — Рижский пр., 11. Для дистанционных занятий показывается отдельная отметка.</p>
+      <p>В субботу в 13:00 на период 05.09—07.11 в расписании стоит «Переезд на Металлистов» — это не пара, а зарезервированное время.</p>
+    </div>
+  </section>
+  <div class="footer">МАП-М26 · 2026/27 · расписание действует в пределах указанного в PDF периода</div>
+</div>
+
+<script>
+const START = '2026-09-01';
+const END = '2026-12-13';
+
+const days = ['Понедельник','Вторник','Среда','Четверг','Пятница','Суббота','Воскресенье'];
+const dayShort = ['Пн','Вт','Ср','Чт','Пт','Сб','Вс'];
+const schedule = [];
+
+// helpers
+function add(o){ schedule.push(o); }
+function range(start,end){ return {start,end}; }
+const FULL = range(START, END); // занятия, для которых в PDF даты не указаны
+
+// ПОНЕДЕЛЬНИК
+add({day:1,start:'14:45',end:'16:20',subject:'Научно-исследовательская работа (получение первичных навыков научно-исследовательской работы)',type:'Индивидуальные занятия',teacher:'Симакина Татьяна Евгеньевна · Абанников Виктор Николаевич · Ефимова Юлия Викторовна',place:'ауд. 201 / 204 / 203, корпус 1 · Малоохтинский пр., 98',range:range('2026-09-07','2026-12-07')});
+
+// ВТОРНИК
+add({day:2,start:'16:30',end:'18:05',subject:'Информационно-измерительные системы в гидрометеорологии',type:'Лекция',teacher:'зав. каф. Восканян Карина Левановна',online:true,range:range('2026-09-08','2026-10-06')});
+add({day:2,start:'16:30',end:'18:05',subject:'Современные модели исследования атмосферы',type:'Лекция',teacher:'декан Дробжева Яна Викторовна',online:true,range:range('2026-10-13','2026-11-10')});
+add({day:2,start:'18:15',end:'19:50',subject:'Климатическая обработка метеорологической информации',type:'Лекция',teacher:'проф. Лобанов Владимир Алексеевич',online:true,range:range('2026-09-08','2026-10-06')});
+add({day:2,start:'18:15',end:'19:50',subject:'Современные модели исследования атмосферы',type:'Лекция',teacher:'декан Дробжева Яна Викторовна',online:true,range:range('2026-10-13','2026-11-10')});
+add({day:2,start:'20:00',end:'21:35',subject:'Климатическая обработка метеорологической информации',type:'Лекция',teacher:'проф. Лобанов Владимир Алексеевич',online:true,range:range('2026-09-08','2026-10-06')});
+
+// СРЕДА
+add({day:3,start:'16:30',end:'18:05',subject:'Моделирование природных процессов в атмосфере',type:'Лекция',teacher:'зав. каф. Анискина Ольга Георгиевна',place:'ауд. 417, корпус 1 · Малоохтинский пр., 98',range:range('2026-09-02','2026-10-28')});
+add({day:3,start:'16:30',end:'18:05',subject:'Информационно-измерительные системы в гидрометеорологии',type:'Практика',teacher:'ассис. Добровольский Артем Васильевич',place:'ауд. 425, корпус 1 · Малоохтинский пр., 98',dates:['2026-12-09']});
+add({day:3,start:'18:15',end:'19:50',subject:'Геоинформационные системы в гидрометеорологии (продвинутый уровень)',type:'Лекция',teacher:'доц. Сероухова Ольга Станиславовна',place:'ауд. 204, корпус 1 · Малоохтинский пр., 98',range:range('2026-09-09','2026-10-07')});
+add({day:3,start:'18:15',end:'19:50',subject:'Моделирование природных процессов в атмосфере',type:'Лекция',teacher:'зав. каф. Анискина Ольга Георгиевна',place:'ауд. 417, корпус 1 · Малоохтинский пр., 98',dates:['2026-10-14']});
+add({day:3,start:'18:15',end:'19:50',subject:'Геоинформационные системы в гидрометеорологии (продвинутый уровень)',type:'Лабораторная',group:'1 подгруппа',teacher:'доц. Сероухова Ольга Станиславовна',place:'ауд. 204, корпус 1 · Малоохтинский пр., 98',dates:['2026-10-21']});
+add({day:3,start:'18:15',end:'19:50',subject:'Моделирование природных процессов в атмосфере',type:'Лабораторная',group:'2 подгруппа',teacher:'зав. каф. Анискина Ольга Георгиевна',place:'ауд. 406, корпус 1 · Малоохтинский пр., 98',dates:['2026-10-21']});
+add({day:3,start:'18:15',end:'19:50',subject:'Моделирование природных процессов в атмосфере',type:'Лабораторная',group:'1 подгруппа',teacher:'зав. каф. Анискина Ольга Георгиевна',place:'ауд. 406, корпус 1 · Малоохтинский пр., 98',dates:['2026-10-28']});
+add({day:3,start:'18:15',end:'19:50',subject:'Геоинформационные системы в гидрометеорологии (продвинутый уровень)',type:'Лабораторная',group:'2 подгруппа',teacher:'доц. Сероухова Ольга Станиславовна',place:'ауд. 204, корпус 1 · Малоохтинский пр., 98',dates:['2026-10-28']});
+add({day:3,start:'20:00',end:'21:35',subject:'Научно-исследовательская работа (получение первичных навыков научно-исследовательской работы)',type:'Лекция',teacher:'декан Дробжева Яна Викторовна',place:'ауд. 208, корпус 1 · Малоохтинский пр., 98',dates:['2026-09-02']});
+add({day:3,start:'20:00',end:'21:35',subject:'Геоинформационные системы в гидрометеорологии (продвинутый уровень)',type:'Лабораторная',group:'1 подгруппа',teacher:'доц. Сероухова Ольга Станиславовна',place:'ауд. 204, корпус 1 · Малоохтинский пр., 98',dates:['2026-09-09','2026-09-23','2026-10-07','2026-10-21']});
+add({day:3,start:'20:00',end:'21:35',subject:'Моделирование природных процессов в атмосфере',type:'Лабораторная',group:'2 подгруппа',teacher:'зав. каф. Анискина Ольга Георгиевна',place:'ауд. 406, корпус 1 · Малоохтинский пр., 98',dates:['2026-09-09','2026-09-23','2026-10-07','2026-10-21']});
+add({day:3,start:'20:00',end:'21:35',subject:'Моделирование природных процессов в атмосфере',type:'Лабораторная',group:'1 подгруппа',teacher:'зав. каф. Анискина Ольга Георгиевна',place:'ауд. 406, корпус 1 · Малоохтинский пр., 98',dates:['2026-09-16','2026-09-30','2026-10-14','2026-10-28']});
+add({day:3,start:'20:00',end:'21:35',subject:'Моделирование природных процессов в атмосфере',type:'Лабораторная',group:'2 подгруппа',teacher:'зав. каф. Анискина Ольга Георгиевна',place:'ауд. 406, корпус 1 · Малоохтинский пр., 98',dates:['2026-09-16','2026-09-30','2026-10-14','2026-10-28']});
+add({day:3,start:'20:00',end:'21:35',subject:'Информационно-измерительные системы в гидрометеорологии',type:'Практика',teacher:'ассис. Добровольский Артем Васильевич',place:'ауд. 417, корпус 1 · Малоохтинский пр., 98',range:range('2026-11-11','2026-12-09')});
+add({day:3,start:'20:00',end:'21:35',subject:'Геоинформационные системы в гидрометеорологии (продвинутый уровень)',type:'Лабораторная',group:'2 подгруппа',teacher:'доц. Сероухова Ольга Станиславовна',place:'ауд. 126, корпус 1 · Малоохтинский пр., 98',range:range('2026-11-11','2026-12-09')});
+
+// ЧЕТВЕРГ — в PDF ВУЦ стоит на двух парах без дат и без аудитории/преподавателя.
+add({day:4,start:'09:00',end:'10:35',subject:'Военно-учебный центр',type:'ВУЦ',range:FULL});
+add({day:4,start:'10:45',end:'12:20',subject:'Военно-учебный центр',type:'ВУЦ',range:FULL});
+
+// ПЯТНИЦА
+add({day:5,start:'16:30',end:'18:05',subject:'Информационно-измерительные системы в гидрометеорологии',type:'Практика',teacher:'ассис. Добровольский Артем Васильевич',place:'ауд. 201, корпус 1 · Малоохтинский пр., 98',range:range('2026-10-09','2026-10-30')});
+add({day:5,start:'18:15',end:'19:50',subject:'Климатическая обработка метеорологической информации',type:'Практика',teacher:'преп. Груздев Алексей Игоревич',place:'ауд. 416, корпус 1 · Малоохтинский пр., 98',range:range('2026-10-09','2026-12-11')});
+add({day:5,start:'20:00',end:'21:35',subject:'Современные модели исследования атмосферы',type:'Практика',teacher:'декан Дробжева Яна Викторовна',place:'ауд. 417, корпус 1 · Малоохтинский пр., 98',range:range('2026-10-09','2026-12-11')});
+
+// СУББОТА
+const SAT_LANG_FOREIGN = ['2026-09-12','2026-09-26','2026-10-10','2026-10-24','2026-11-07'];
+const SAT_LANG = ['2026-09-05','2026-09-19','2026-10-03','2026-10-17','2026-10-31'];
+// пары 09:00 и 10:45 в PDF заполнены одинаково — два занятия подряд
+['09:00|10:35','10:45|12:20'].forEach(slot=>{
+  const [s,e]=slot.split('|');
+  add({day:6,start:s,end:e,subject:'Иностранный язык (продвинутый уровень)',type:'Практика',teacher:'ст. преп. Синецкая Марина Юрьевна',place:'ауд. 213, корпус 1 · Малоохтинский пр., 98',dates:SAT_LANG});
+  add({day:6,start:s,end:e,subject:'Иностранный язык (продвинутый уровень)',type:'Лабораторная · для иностранных студентов',teacher:'ст. преп. Калашникова Ольга Владимировна',place:'ауд. 105, корпус 4 · Рижский пр., 11',dates:SAT_LANG_FOREIGN});
+  add({day:6,start:s,end:e,subject:'Геоинформационные системы в гидрометеорологии (продвинутый уровень)',type:'Лабораторная',group:'2 подгруппа',teacher:'доц. Сероухова Ольга Станиславовна',place:'ауд. 206, корпус 1 · Малоохтинский пр., 98',range:range('2026-11-14','2026-12-12')});
+});
+add({day:6,start:'13:00',end:'14:35',subject:'Переезд на Металлистов',type:'Резерв времени',note:true,range:range('2026-09-05','2026-11-07')});
+add({day:6,start:'13:00',end:'14:35',subject:'Научно-исследовательская работа (получение первичных навыков научно-исследовательской работы)',type:'Лекция',teacher:'декан Дробжева Яна Викторовна',online:true,dates:['2026-12-12']});
+add({day:6,start:'14:45',end:'16:20',subject:'Специальные главы физики атмосферы',type:'Лекция',teacher:'доц. Михайловский Юрий Павлович',place:'ауд. 102, корпус 2 · пр. Металлистов, 3',range:range('2026-09-05','2026-10-03')});
+add({day:6,start:'14:45',end:'16:20',subject:'Специальные главы физики атмосферы',type:'Практика',teacher:'доц. Михайловский Юрий Павлович',place:'ауд. 102, корпус 2 · пр. Металлистов, 3',range:range('2026-10-10','2026-11-07')});
+
+// Воскресенье: в PDF регулярных занятий нет.
+
+function parseDate(s){const [y,m,d]=s.split('-').map(Number);return new Date(y,m-1,d)}
+function iso(d){return [d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-')}
+function mondayOf(d){const x=new Date(d); const n=x.getDay(); x.setDate(x.getDate()-(n===0?6:n-1)); x.setHours(0,0,0,0); return x}
+function inPeriod(item,date){
+  const d=iso(date);
+  if(item.dates) return item.dates.includes(d);
+  if(item.range) return d>=item.range.start && d<=item.range.end;
+  return false;
+}
+function weekIndexFor(date){
+  const start=mondayOf(parseDate(START));
+  const target=mondayOf(date);
+  return Math.round((target-start)/(7*86400000));
+}
+function weekNumber(index){ return index+1 }
+function fmt(d){return d.toLocaleDateString('ru-RU',{day:'2-digit',month:'2-digit'})}
+function nowMinutes(){const d=new Date();return d.getHours()*60+d.getMinutes()}
+function hm(s){const [h,m]=s.split(':').map(Number);return h*60+m}
+
+const FIRST_MONDAY = mondayOf(parseDate(START));
+const LAST_MONDAY = mondayOf(parseDate(END));
+function clampMonday(d){
+  const m=mondayOf(d);
+  if(m<FIRST_MONDAY) return new Date(FIRST_MONDAY);
+  if(m>LAST_MONDAY) return new Date(LAST_MONDAY);
+  return m;
+}
+let currentMonday = clampMonday(new Date());
+
+function render(){
+  const search=(document.getElementById('search').value||'').trim().toLowerCase();
+  const idx=weekIndexFor(currentMonday);
+  const end=new Date(currentMonday);end.setDate(end.getDate()+6);
+  document.getElementById('weekNumber').textContent='Неделя '+weekNumber(idx);
+  document.getElementById('weekDates').textContent=fmt(currentMonday)+' — '+fmt(end);
+  document.getElementById('prev').disabled = currentMonday<=FIRST_MONDAY;
+  document.getElementById('next').disabled = currentMonday>=LAST_MONDAY;
+
+  const root=document.getElementById('days');
+  root.innerHTML='';
+  for(let i=0;i<7;i++){
+    const d=new Date(currentMonday);d.setDate(d.getDate()+i);
+    const ds=iso(d);
+    const today=iso(new Date())===ds;
+    let lessons=schedule.filter(x=>x.day===i+1 && inPeriod(x,d));
+    if(search) lessons=lessons.filter(x=>(x.subject+' '+(x.teacher||'')+' '+(x.place||'')+' '+(x.type||'')+' '+(x.group||'')).toLowerCase().includes(search));
+    lessons.sort((a,b)=>hm(a.start)-hm(b.start));
+
+    const card=document.createElement('section');card.className='day'+(today?' today':'');
+    card.innerHTML=`<div class="dayhead"><div class="dayname">${dayShort[i]} · ${days[i]}${today?'<span class="today-label">Сегодня</span>':''}</div><div class="date">${fmt(d)}</div></div>`;
+    if(!lessons.length){card.innerHTML+='<div class="empty">Нет занятий</div>';root.appendChild(card);continue}
+    const list=document.createElement('div');list.className='lessons';
+    lessons.forEach(l=>{
+      const current=today && nowMinutes()>=hm(l.start) && nowMinutes()<hm(l.end);
+      const el=document.createElement('article');el.className='lesson'+(current?' current':'')+(l.note?' note':'');
+      const tags=[
+        `<span class="tag">${l.type}</span>`,
+        l.group?`<span class="tag group">${l.group}</span>`:'',
+        l.online?`<span class="tag online">онлайн</span>`:'',
+        l.place?`<span class="tag room">аудитория</span>`:''
+      ].join('');
+      el.innerHTML=`<div class="time">${l.start} — ${l.end}</div>
+        <div class="subject">${l.subject}</div>
+        ${l.teacher?`<div class="teacher">👤 ${l.teacher}</div>`:''}
+        ${l.place?`<div class="place">📍 ${l.place}</div>`:''}
+        ${l.online?'<div class="place">🌐 Дистанционная поддержка</div>':''}
+        <div class="tags">${tags}</div>`;
+      list.appendChild(el);
+    });
+    card.appendChild(list);
+    root.appendChild(card);
+  }
+}
+document.getElementById('prev').onclick=()=>{const x=new Date(currentMonday);x.setDate(x.getDate()-7);if(x>=FIRST_MONDAY)currentMonday=x;render()}
+document.getElementById('next').onclick=()=>{const x=new Date(currentMonday);x.setDate(x.getDate()+7);if(x<=LAST_MONDAY)currentMonday=x;render()}
+document.getElementById('today').onclick=()=>{currentMonday=clampMonday(new Date());render()}
+document.getElementById('search').addEventListener('input',render);
+render();
+// метка «СЕЙЧАС» и подсветка сегодняшнего дня должны жить без перезагрузки страницы
+setInterval(render,30000);
+
+// листание недель свайпом — основной жест на телефоне
+(function(){
+  let x0=null,y0=null;
+  const root=document.getElementById('days');
+  root.addEventListener('touchstart',e=>{const t=e.changedTouches[0];x0=t.clientX;y0=t.clientY},{passive:true});
+  root.addEventListener('touchend',e=>{
+    if(x0===null) return;
+    const t=e.changedTouches[0], dx=t.clientX-x0, dy=t.clientY-y0;
+    x0=null;
+    if(Math.abs(dx)<60 || Math.abs(dx)<Math.abs(dy)*1.5) return; // вертикальная прокрутка важнее
+    document.getElementById(dx<0?'next':'prev').click();
+  },{passive:true});
+})();
+
+// стрелки на клавиатуре — для десктопа
+document.addEventListener('keydown',e=>{
+  if(e.target.tagName==='INPUT'||e.metaKey||e.ctrlKey||e.altKey) return;
+  if(e.key==='ArrowLeft') document.getElementById('prev').click();
+  if(e.key==='ArrowRight') document.getElementById('next').click();
+});
+
+// подсказка «На экран Домой» — только в Safari на iOS и только пока не установлено
+(function(){
+  const standalone = window.navigator.standalone===true || window.matchMedia('(display-mode: standalone)').matches;
+  const ios = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+              (navigator.platform==='MacIntel' && navigator.maxTouchPoints>1);
+  let hidden=false;
+  try{ hidden = localStorage.getItem('installHintClosed')==='1' }catch(err){}
+  const box=document.getElementById('install');
+  if(ios && !standalone && !hidden) box.classList.add('show');
+  document.getElementById('installClose').onclick=()=>{
+    box.classList.remove('show');
+    try{ localStorage.setItem('installHintClosed','1') }catch(err){}
+  };
+})();
+
+// офлайн-режим: без сети приложение открывается из кэша
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>{
+    navigator.serviceWorker.register('sw.js').catch(()=>{}); // с file:// не работает — это нормально
+  });
+}
+</script>
+</body>
+</html>
